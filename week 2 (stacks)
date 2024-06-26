@@ -1,0 +1,155 @@
+Q1.
+
+class Solution {
+public:
+    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+        vector<int>res;
+        for (auto it=nums1.begin();it!=nums1.end();it++){
+            auto it2 = find(nums2.begin(),nums2.end(),*it);
+            bool found=false;
+            while(it2 != nums1.end()){
+                if(*it2>*it){
+                    res.push_back(*it2);
+                    found=true;
+                    break;
+                }
+                 it2++;
+            }
+             if(!found)res.push_back(-1);
+        }
+        return res;
+    }
+};
+
+Q2:
+
+class MyQueue {
+    stack<int> s;
+    stack<int> temp;
+public:
+    MyQueue() {
+    }
+    
+    void push(int x) {
+        s.push(x);
+    }
+    
+    int pop() {
+        if(s.size() == 0){
+            cout<< " the stack is empty.";
+            return -1;
+        }
+        while(s.size() >1 ){
+            temp.push(s.top());
+            s.pop();
+        }
+        int res = s.top();
+        s.pop();
+        while(temp.size() != 0){
+            s.push(temp.top());
+            temp.pop();
+        }
+        return res;
+    }
+    
+    int peek() {
+        if(s.size() == 0){
+            cout<< " the stack is empty.";
+            return -1;
+        }
+        while(s.size() > 1){
+            temp.push(s.top());
+            s.pop();
+        }
+        int res= s.top();
+        temp.push(s.top());
+        s.pop();
+        while(temp.size() > 0){
+             s.push(temp.top());
+            temp.pop();
+        }
+        return res;
+    }
+    
+    bool empty() {
+      if(s.size()==0)return true;
+      return false;
+    }
+};
+
+Q3:
+
+class Solution {
+public:
+    int sumSubarrayMins(vector<int>& arr) {
+        long long sum=0;
+        int min;
+        for(auto it=arr.begin();it!= arr.end();it++){
+            min=*it;
+            for (auto it2 = it;it2!= arr.end();it2++){
+                if(*it2<min)min=*it2;
+                sum+=min;
+            }
+        }
+    return sum;
+    }
+};
+
+Q4:
+
+class MedianFinder {
+    priority_queue<int> minheap;
+    priority_queue<int,vector<int>,greater<int>>maxheap;
+public:
+    MedianFinder() {
+        
+    }
+    
+    void addNum(int num) {
+       if(maxheap.size()==0 || num>maxheap.top()) maxheap.push(num);
+       else minheap.push(num); 
+       if(maxheap.size()>minheap.size()+1){
+        minheap.push(maxheap.top());
+        maxheap.pop();
+       }else if(minheap.size()>maxheap.size()){
+         maxheap.push(minheap.top());
+        minheap.pop();
+       }
+    }
+    
+    double findMedian() {
+        if(minheap.size()==maxheap.size()){
+            double res= static_cast<double> (minheap.top())+static_cast<double> (maxheap.top());
+            return res/2.0;
+        }
+        else{
+            return static_cast<double> (maxheap.top());
+        }
+    }
+};
+
+Queue:- BFS algo:
+
+class graph{
+map <int,bool> visited;
+map<int, list<int>> adj;
+queue<int> q; 
+public:
+void add_edge(int m,int n){
+    adj[m].push_back(n);
+    }
+void bfs(int v){
+    q.push(v);
+    while(!q.empty()){
+        v=q.front();
+        q.pop();
+        if(!visited[v]){
+            cout<<v<<" ";
+            visited[v] = true;
+        }
+        for(auto it=adj[v].begin(); it!= adj[v].end();it++){
+                if(!visited[*it]) q.push(*it);
+            }
+        }
+    }
+};
