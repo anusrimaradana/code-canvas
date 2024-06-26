@@ -153,3 +153,26 @@ void bfs(int v){
         }
     }
 };
+
+Q1 (maps):
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int> res;
+        int index=0;
+        for (auto it=nums.begin();it!=nums.end();it++){
+            res.push_back(index);
+            int index2=index+1;
+            for (auto it2=it+1;it2 != nums.end();it2++){
+                if((*it+*it2) == target){
+                    res.push_back(index2);
+                    return res;
+                }
+                index2++;
+            }
+            res.erase(res.begin());
+            index++;
+        }
+    return res;}
+};
+
