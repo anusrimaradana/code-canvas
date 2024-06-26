@@ -1,0 +1,223 @@
+→Q1. 
+#include<iostream>
+using namespace std;
+
+class bank_acc {
+string name;
+int balance;
+public:
+bank_acc(int person_balance){
+    balance= person_balance;}
+    
+void deposit (int amount){
+    balance+=amount;
+    cout<<amount<<" is deposited"<<endl;
+    }
+void withdraw (int amount){
+    balance-= amount;
+    cout<<amount<<" is withdrawn"<<endl;
+    }
+void get_balance(){
+    cout<<"the available balance in your account is : "<<balance<<endl;
+    }
+};
+
+int main(){
+bank_acc anusri(10000);
+anusri.get_balance();
+anusri.deposit(230);
+anusri.get_balance();
+anusri.withdraw(120);
+anusri.get_balance();
+}
+
+Q2.
+#include<iostream>
+#include<string>
+#include<vector>
+using namespace std;
+
+class book {
+public:
+string name;
+string author_name;
+int year;
+
+book ( string book_name, string book_author,int book_year){
+    name = book_name;
+    author_name = book_author;
+    year = book_year;
+    }
+book (){
+    name = "";
+    author_name ="";
+    year= 0;
+    }
+bool operator< (const book& other)const{
+    return name<other.name;
+    }
+bool operator> (const book& other)const{
+    return name>other.name;
+    }
+bool operator==(const book& other)const{
+    return name==other.name;
+    }
+};
+
+class library{
+vector <book> books;
+public:
+void add_book(book newbook){
+    books.push_back(newbook);
+    cout<< " This book named "<< newbook.name << " is added successfully :)"<< endl;
+    }
+void remove_book(book old_book){
+    bool found = false;
+    for ( auto it=books.begin();it != books.end();it++){
+        if (it->name == old_book.name && it->author_name == old_book.author_name && it->year == old_book.year){
+            books.erase(it);
+            cout<<" The book "<<old_book.name <<" is removed!" << endl;
+            found = true;
+            break;
+            }
+        }
+    if (!found){cout<<" This book named "<<old_book.name<<" is not found in library to remove :("<<endl;}
+    }
+void display_books(){
+    cout<< " The available books in the library are: "<<endl;
+    for ( auto& book : books){
+        cout << "Book Name: " << book.name << ", Author: " << book.author_name << ", Year: " << book.year << endl;
+        }
+    }
+void sort_books(){
+    cout<<"The books were sorted successfully."<<endl;
+    sort(books.begin(),books.end());
+    }
+};
+
+int main(){
+ library mylibrary;
+ book book1("'The silent patient'" , "anu" , 2006);
+ book book2 ( "'The dead women'" , "anu" , 2010);
+ book book3 ( "'It ends with us'" , "divya" , 2004);
+ book book4 ( "'Harry Potter'" , "jothshna" , 2009);
+ 
+ mylibrary.add_book(book1);
+ mylibrary.add_book(book2);
+ mylibrary.add_book(book3);
+ mylibrary.add_book(book4);
+ 
+ mylibrary.display_books();
+ mylibrary.sort_books();
+ mylibrary.display_books();
+ 
+ mylibrary.remove_book(book3);
+ mylibrary.remove_book(book1);
+ 
+}
+
+Q3. Tic-Tac-Toe game
+
+#include<iostream>
+#include<string>
+#include<vector>
+using namespace std;
+
+class tic_tac_toe{
+public:
+char board[3][3];
+int check(int count){
+    //rows check
+    for (int i=0;i<3;i++){
+        if(board[i][0]==board[i][1] && board[i][1]==board[i][2] && board[i][0]!='.'){return 1;}
+        }
+    //columns check
+    for (int j=0;j<3;j++){
+        if(board[0][j]==board[1][j] && board[1][j]==board[2][j] && board[0][j]!='.'){return 1;}
+        }
+    //diagonals check
+    if(board[0][0]==board[1][1] && board[1][1] == board[2][2] && board[0][0] != '.'){return 1;}
+    if(board[0][2]==board[1][1] && board[1][1] == board[2][0] && board[0][2] != '.'){return 1;}
+    if (count == 9) return 2; // game tie
+    return 0; //0 means game continues
+    }
+void display_board(){
+    for (int i=0;i<3;i++){
+    for (int j=0;j<3;j++){
+        cout<<board[i][j]<<" ";
+        }
+    cout<<endl;
+        }
+    }
+void start(){
+     int count=0;
+    for (int i=0;i<3;i++){
+    for (int j=0;j<3;j++){
+        board[i][j]='.';
+        }
+    }
+    bool running = true;
+   
+while(running){
+    int input;
+    bool valid = true;
+    //taking input of first player 'O'
+    cout<< "player 'O' chance. enter any number from 1 to 9" <<endl;
+    cin>>input;
+    int i = (input-1)/3;
+    int j = (input-1)%3;
+    if(board[i][j] != '.'){
+    valid= false;
+    }
+    while(!valid){cout<<"entered number is already occupied try another number."<<endl;
+        cin>>input;
+        valid = true;
+    i = (input-1)/3;
+    j = (input-1)%3;
+     if(board[i][j] != '.'){
+    valid= false;
+    }}
+    board[i][j]='O';
+    count++;
+display_board();
+int res=check(count);
+if(res==1){cout<<"the player 'O' won!!!"<<endl;
+ running = false;
+ break;
+ }
+if(res==2){cout<<"game end. it was Tied !! "<<endl;
+ running = false;
+ break;
+ }
+
+ //taking input from player 'X'
+  cout<< "player 'X' chance. enter any number from 1 to 9 "<<endl;
+   cin>>input;
+     i = (input-1)/3;
+     j = (input-1)%3;
+     if(board[i][j] != '.'){cout<<"entered number is already occupied try another number."<<endl;
+      cin>>input;
+     i = (input-1)/3;
+     j = (input-1)%3;
+    }
+    board[i][j]='X';
+    count++;
+display_board();
+res=check(count);
+if(res==1){cout<<"the player 'X' won!!!"<<endl;
+ running = false;
+ break;
+ }
+else if(res==2){cout<<"game end. it was Tied !! "<<endl;
+ running = false;
+ break;
+ }
+ }}};
+
+int main(){
+tic_tac_toe game;
+game.start();
+return 0;
+}
+
+
