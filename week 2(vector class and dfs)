@@ -1,0 +1,95 @@
+Q1.Vector class:
+
+template<typename T> class vectorClass{
+T* arr; // to store the address of the vector /array
+int capacity;
+int current;
+public:
+vectorClass(){
+    arr=new T[1]; 
+    capacity =1;
+    current =0;
+    }
+~vectorClass(){delete[] arr;}
+void push(T data){
+    if(current == capacity){
+        T* temp = new T[2*capacity];
+        capacity *=2;
+        for ( int i=0;i<current;i++){
+            temp[i]=arr[i];
+            }
+        arr=temp;
+        delete[] temp;
+        }
+    arr[current]=data;
+    current++;
+    }
+void push(T data,int index){
+    if(index == capacity)
+    push(data);
+    else arr[index] = data;
+    }
+T get(int index){
+    if(index < current)return arr[index];
+    return -1;
+    }
+void pop(){current--;}
+int size(){return current;}
+int getcapacity(){return capacity;}
+void print(){
+    for(int i=0;i<current;i++){
+        cout<<arr[i]<<" ";
+        }
+    cout<<endl;
+    }
+};
+
+Q2.Dfs algorithm:
+
+#include<iostream>
+#include<math.h>
+#include<list>
+#include<map>
+#include<set>
+#include<stack>
+using namespace std;
+
+class graph {
+map < int,list<int>> adj;
+public:
+void add_edge(int m,int n){
+    adj[m].push_back(n);
+    }
+void dfs(int v){
+    map<int,bool>visited;
+    stack<int> Stack;
+    Stack.push(v);
+    
+    while(!Stack.empty()){
+        v=Stack.top();
+        Stack.pop();
+        if(!visited[v]){
+        cout<<v<<" ";
+    visited[v]=true;
+        for ( auto it=adj[v].begin();it!= adj[v].end();it++){
+            if (!visited[*it]) Stack.push(*it);
+                }   
+            }
+        }
+    cout<<endl;
+    }
+};
+
+int main(){
+   graph g;
+    g.add_edge(0, 1);
+    g.add_edge(0, 2);
+    g.add_edge(1, 2);
+    g.add_edge(2, 0);
+    g.add_edge(2, 3);
+    g.add_edge(3, 3);
+  cout<<"dfs starting from vertex 2 is:";  
+  g.dfs(2);
+   
+}
+
