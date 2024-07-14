@@ -1,0 +1,75 @@
+*****Naive algorithem: ******
+
+#include<iostream>
+#include<string>
+#include<math.h>
+
+using namespace std;
+
+void naive(string& pat,string& txt){
+    int m=pat.size();
+    int n=txt.size();
+    for(int i=0;i<=m-n;i++){
+        int j=0;
+        for(j=0;j<n;j++){
+            if(txt[j]!=pat[i+j]) break;
+            }
+        if(j==n) cout<<"pattern fount at index: "<<i<<endl;
+        }
+    }
+
+int main(){
+string str1="anusridivyasri";
+string str2="sri";
+naive(str1,str2);    
+}
+
+
+****KMP Algorithem: *****
+
+vector<int> lpss(string pat){
+int n=pat.size();
+vector<int> lps;
+lps.push_back(0);
+int j=0;
+for(int i=1;i<n;i++){
+    while(j>0 && pat[i]!=pat[j]){
+        j=lps[j-1];
+        }
+    if(pat[i]==pat[j])j++;
+    lps.push_back(j);
+    }
+return lps;
+}
+
+vector<int> kmp(string txt,string pat){
+int i=0,j=0;
+int m=txt.size();
+int n=pat.size();
+vector<int> res;
+vector<int> lps=lpss(pat);
+while(i<m){
+    if(pat[j]==txt[i]){
+        i++;
+        j++;
+        }
+    if(j==n){
+        res.push_back(i-j);
+        j=lps[j-1];
+        }
+    else if(i<m && pat[j]!=txt[i]){
+        if(j>0)j=lps[j-1];
+        else i++;
+        }
+}
+ return res;
+}
+
+int main(){
+string txt="i love my country india is my country."  ;
+string pat="country";
+vector<int> res=kmp(txt,pat);
+for(int i=0;i<res.size();i++){
+    cout<<res[i]<<" ";
+    }
+}
